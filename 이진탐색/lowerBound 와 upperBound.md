@@ -70,6 +70,7 @@ target이 6이라고 가정할 때, lowerBound의 값은 3이된다. **즉 targe
    - target과 같거나 큰 수가 처음 나오는자리가 lowerBound이다. 따라서 mid가 target보다 작은경우에는 mid를 다음 탐색범위에 포함시키면 안된다.
    - mid를 제외한 오른쪽 범위를 탐색한다. (lt = mid+1)
 
+1번과 2번은 탐색범위가 같다. 따라서 묶을 수 있다.
     
 ```java
     static int lowerBound(List<Integer> nums, int target) {
@@ -79,22 +80,64 @@ target이 6이라고 가정할 때, lowerBound의 값은 3이된다. **즉 targe
             int mid = (lt + rt) / 2;
             int find = nums.get(mid);
 
-            if (find >= target) {
-                rt = mid;
-            } else if (find < target) {
-                lt = mid + 1;
+            if (find < target) {
+               lt = mid + 1; // mid를 제외한 오른쪽 범위 탐색
+            } else {
+               rt = mid; // mid값을 포함해서 왼쪽범위를 탐색한다. mid값을 포함시키는 이유는 mid값도 lower Bound의 후보군이 될 수 있기 때문
             }
         }
 
         return rt;
     }
 
-
 ```
 
+일반적인 이진탐색과 다른부분으로 while문의 조건에 `(lt <= rt)`를 사용하지 않고 `(lt < rt)` 를 사용한다는 것이다.
 
+그 이유는 이진탐색의 경우 탐색하고자하는 값이 존재하지 않을 때에 처리를 해주어야 한다.
 
+하지만 lowerBound의 경우에는? 그냥 탐색범위가 1로 좁혀지면 그 자리가 lowerBound값이 된다.
 
+그렇기 때문에 이러한 차이가 생기는 것이다.
+
+## upperBound
+
+lt, rt 셋팅은 lowerBound와 일치한다.
+
+### 탐색 범위 분석
+
+인덱스 | 0 | 1 | 2 | 3 | 4 | 5 |  6 |  7 |  8 |  9 
+|--|--|--|--|--|--|--|--|--|--|--|
+값 | 1 | 3 | 5 | 6 | 6 | 6 | 13 | 16 | 18 | 30
+
+위의 경우에 똑같이 target이 6이라면 uppberBound의 값은 6이된다.
+
+**즉 mid값이 6이나오거나, 6보다 작은수가 나왔다면 그 다음 탐색은 mid + 1부터 오른쪽을 탐색을 하면된다.**
+
+**반면 mid값이 큰 수가 나왔다면? 얘는 uppberBound의 후보군이 될 수 있다. 따라서 mid값을 다음 탐색범위에도 포함시켜야한다.**
+
+코드는 아래와 같다.
+
+```java
+
+    static int upperBound(int[] nums, int target) {
+        int lt = 0, rt = nums.length;
+
+        while (lt < rt) {
+            int mid = (lt + rt) / 2;
+            int find = nums[mid];
+
+            if (find <= target) {
+                lt = mid + 1;
+            } else {
+                rt = mid;
+            }
+        }
+
+        return rt;
+    }
+
+```
 
 
 ## 활용하는 법

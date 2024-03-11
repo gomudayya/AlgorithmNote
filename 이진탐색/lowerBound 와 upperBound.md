@@ -68,7 +68,7 @@ target이 6이라고 가정할 때, lowerBound의 값은 3이된다. **즉 targe
 3. mid값이 target보다 작은 경우.
 
    - target과 같거나 큰 수가 처음 나오는자리가 lowerBound이다. 따라서 mid가 target보다 작은경우에는 mid를 다음 탐색범위에 포함시키면 안된다.
-   - mid를 제외한 오른쪽 범위를 탐색한다.
+   - mid를 제외한 오른쪽 범위를 탐색한다. (즉 mid+1)
 
     
 ```java

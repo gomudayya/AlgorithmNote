@@ -68,7 +68,7 @@ DP[i][j] = Math.max(DP[i-1][j-weight[j] + value[j], DP[i-1][j]);
 
 **중복이 허용된다면 i아이템을 여러개 썼을때의 최적값도 고려해야한다.**
 
-즉 i-1번째 row가 아니라 i번째 row의 값들을 토대로 식을 세우면 된다.
+즉 **i-1번째 row가 아니라 i번째 row의 값들을 토대로 식을 세우면 된다.**
 
 DP[i][j] = Math.max(DP[i-1][j], DP[i][j-weight[j]] + value[j]);
 

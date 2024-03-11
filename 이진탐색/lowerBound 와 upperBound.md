@@ -58,17 +58,17 @@ target이 6이라고 가정할 때, lowerBound의 값은 3이된다. **즉 targe
 1. mid값이 target보다 큰 경우.
 
    - 다음 탐색범위에 mid도 포함시켜야 한다. 위의 예시로 보면 13이있는 자리가 lowerBound가 될 수 있기 때문이다.
-   - mid를 포함한 왼쪽범위를 다음번에 탐색한다.
+   - mid를 포함한 왼쪽범위를 다음번에 탐색한다. (rt = mid)
 
 2. mid값과 target이 같은 경우
 
    - 만약에 target값이 하나라면 mid도 lowerBound가 될 수 있다. 즉 mid도 탐색범위에 포함시켜야한다.
-   - 하지만 여러개라면 가장 왼쪽에 있는값이 lowerBound가 되므로 mid를 포함한 왼쪽범위를 다음번에 탐색해야한다.
+   - 하지만 여러개라면 가장 왼쪽에 있는값이 lowerBound가 되므로 mid를 포함한 왼쪽범위를 다음번에 탐색해야한다. (rt = mid)
 
 3. mid값이 target보다 작은 경우.
 
    - target과 같거나 큰 수가 처음 나오는자리가 lowerBound이다. 따라서 mid가 target보다 작은경우에는 mid를 다음 탐색범위에 포함시키면 안된다.
-   - mid를 제외한 오른쪽 범위를 탐색한다. (즉 mid+1)
+   - mid를 제외한 오른쪽 범위를 탐색한다. (lt = mid+1)
 
     
 ```java

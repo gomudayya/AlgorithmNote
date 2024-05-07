@@ -24,17 +24,21 @@
 
 ## 배열을 리스트로 변환하기
 
-`Arrays.asList(arr);` 를 사용한다.
+**`Arrays.asList(arr);` 를 사용한다.**
 
-개발할 때는 보통 `List.of()`를 많이 쓰지만 여러모로 코딩테스트에서는 `List.of()` 보다 `Arrays.asList()`가 더 유용하다. 
+`List.of()`는 인자로 배열을 받지 못하지만 `Arrays.asList()`는 가변인자를 받기 때문에 배열을 받을 수 있다. 
 
-이유 
+하지만 `List.of()` 둘 다 `Arrays.asList()` 내부 요소를 조작하는것이 잘 안된다.
 
-- `List.of()`는 인자로 배열을 받지못한다.
+`List.of()` 는 애초에 불변리스트를 반환하고,
 
-- `List.of()`는 불변리스트를 반환하기 때문에 **내부 요소를 조작할 수 없다. 내부 요소를 조작해야하는 경우도 빈번한 알고리즘에서는 안 좋다.**
+`Arrays.asList()`는 Arrays 클래스의 내부클래스로 있는 ArrayList를 반환하는데, 이 리스트에는 add함수가 없다.
 
-그래서 List.of()는 지양하고 **`new ArrayList<>(컬렉션타입)` 또는 `Arrays.asList(배열 or 가변인자)`** 를 사용하자.
+(참고로 자바는 어레이리스트 클래스가 두개이다. java.util.ArrayList 와 java.util.Arrays의 내부클래스 ArrayList)
+
+그래서 **내부 요소를 조작해야 한다면 `new ArrayList<>(Collection)` 을 사용해서 아에 새로운 ArrayList를 생성하자.**
+
+[Arrays.asList() 와 List.of() 차이 한방 정리](https://inpa.tistory.com/entry/JAVA-%E2%98%95-ArraysasList-%EC%99%80-Listof-%EC%B0%A8%EC%9D%B4-%ED%95%9C%EB%B0%A9-%EC%A0%95%EB%A6%AC)
 
 ## StringBuilder
 
@@ -57,17 +61,40 @@
 이 때는 Map.Entry 타입으로 정렬하면 된다. 
 
 ```java
-public List<String> sortMap(Map<String, Integer> map) {
-    List<Map.Entry<String, Integer>> list = new ArrayList<>(play.entrySet());
-
-    //판매량이 높은순으로 정렬. 낮은순이면 entry1.getValue() - entry2.getValue()
-    Collections.sort(list, (entry1, entry2) -> entry2.getValue() - entry1.getValue()); 
-    return list.stream()
-        .map(entry -> entry.getKey())
-        .collect(Collectors.toList());
-}
+      public List<String> sortMap(Map<String, Integer> map) {
+          List<Map.Entry<String, Integer>> list = new ArrayList<>(play.entrySet());
+      
+          //판매량이 높은순으로 정렬. 낮은순이면 entry1.getValue() - entry2.getValue()
+          Collections.sort(list, (entry1, entry2) -> entry2.getValue() - entry1.getValue()); 
+          return list.stream()
+              .map(entry -> entry.getKey())
+              .collect(Collectors.toList());
+      }
 ```
 
 그리고 순서가 보장되는 Map을 사용하고 싶으면 `LinkedHashMap`을 사용하면 된다. 
 
 인덱스로 접근은 안되지만 iterator로 순회할 때 순서대로 접근한다. (향상된 for문)
+
+### merge를 사용하여 코드를 간단하게 작성해보자
+
+자바로 알고리즘을 풀면서 Map을 사용해보면 null체크 때문에 작성하기가 참 지저분하다.
+
+보통 처음 사용하면 containsKey를 이용하고, 그다음은 getOrDefault()를 이용하곤 한다.
+
+사용해보면 얘네 둘다 썩 만족스럽지 못하다. 가능하면 merge()를 이용해서 해보자.
+
+아래의 입력을 merge()를 이용해서 Map에다가 정리해보자. 장르에 따른 재생횟수가 나오는 입력이다.
+
+![image](https://github.com/gomudayya/AlgorithmNote/assets/129571789/eeac0258-1b58-4cde-884f-9138857714b2)
+
+```java
+      Map<String, Integer> play = new HashMap<>();    // <장르, 재생횟수>
+
+      for (int i = 0; i < genres.length; i++) {
+          play.merge(genres[i], plays[i], (v1, v2) -> v1+v2);
+      }
+```
+
+
+ 

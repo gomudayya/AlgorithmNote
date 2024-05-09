@@ -47,6 +47,59 @@
 
 이런식으로 함수 안에서 +1 해주는 방식으로 구현하는것이 더 편리하고, 실수할 가능성도 더 적다.
 
+## 재귀함수의 호출인자 안에 매직넘버가 있으면 안된다.
+
+관련 문제 : [쿼드압축 후 개수세기](https://school.programmers.co.kr/learn/courses/30/lessons/68936)
+
+위의 문제를 읽고 아래의 잘못된 코드를 보자.
+
+```java
+void count(int[][] arr, int left, int up, int right, int bottom, int[] answer) {
+        if (allElementIsSame(arr, left, up, right, bottom)) {
+            answer[arr[up][left]]++;
+            return;
+        }
+        
+        int xMid = (left+right)/2;
+        int yMid = (up+bottom)/2;
+        count(arr, 0, 0, xMid, yMid ,answer); //왼위
+        count(arr, xMid, 0, right, yMid, answer); //오위
+        count(arr, 0, yMid, xMid, bottom, answer); //왼아래
+        count(arr, xMid, yMid, right, bottom ,answer); //오아래
+    }
+```
+
+count함수의 본체를 보면, 자기자신을 재귀적으로 호출하는데 **이 때 인자에 매직넘버(0)이 들어간다.**
+
+재귀함수안에서 재귀호출이 발생할 때 매직넘버가 들어가면 이것은 높은확률로 실수한 것이다. (100%인가?)
+
+왜냐하면 **재귀호출이 발생할 때 마다 상태가 변해야 하는데,**
+
+**고정된 매직넘버(즉 상수)가 있다는 것은 상태변화를 올바르게 구현하지 못했다는 것이다.**
+
+따라서 **재귀함수를 작성한 이후에는 꼭 인자에 매직넘버가 사용되고 있는지 확인해야 한다.**
+
+올바른 코드는 아래와 같다.
+
+```java
+void count(int[][] arr, int left, int up, int right, int bottom, int[] answer) {
+        if (allElementIsSame(arr, left, up, right, bottom)) {
+            answer[arr[up][left]]++;
+            return;
+        }
+        
+        int xMid = (left+right)/2;
+        int yMid = (up+bottom)/2;
+        count(arr, left, up, xMid, yMid ,answer); //왼위
+        count(arr, xMid, up, right, yMid, answer); //오위
+        count(arr, left, yMid, xMid, bottom, answer); //왼아래
+        count(arr, xMid, yMid, right, bottom ,answer); //오아래
+    }
+```
+
+
+
+
 
 ### 종료조건을 적을 때 return을 먼저 써놓자.
 
@@ -68,3 +121,5 @@ void dfs() {
 여기서 가장 많이 실수하는 것은 종료전 로직을 작성하고 **`return`** 을 **빼먹는 것**이다.
 
 **그래서 권장되는 것은 .. 종료조건을 작성하고, 괄호 안에 그냥 바로 return을 적고 나중에 종료전 로직을 적는것이 좋다.**
+
+

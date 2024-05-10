@@ -96,5 +96,17 @@
       }
 ```
 
+### Map의 Value타입이 리스트일 경우
 
+`putIfAbsent(new ArrayList<>())`를 이용하자.
+
+이게 getOrDefault()보다 더 편리한 것 같다.
+
+예시 코드
+```java
+  for (String key : keys) {
+      map.putIfAbsent(key, new ArrayList<>());
+      map.get(key).add(value에 해당되는 값);
+  }
+```
  

@@ -82,7 +82,7 @@ List<String> getSortedGenres(Map<String, Integer> gcMap) {
 
 정렬을 한번만 하니까 정렬 메소드를 한번만 정의하면 되서 깔끔했다.
 
-**다만 주의해야할 것은 static 맵을 참조하기 위해선 static 내부 클래스를 사용해야 한다.**
+**다만 주의해야할 것은 <장르, 재생횟수>의 Map을 참조하기 위해선 static 타입으로 map을 선언하고, 내부 클래스를 사용해야 한다.**
 
 ```java
 import java.util.*;

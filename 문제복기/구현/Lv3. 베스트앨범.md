@@ -65,3 +65,11 @@ List<String> getSortedGenres(Map<String, Integer> gcMap) {
 ```
 
 사실 별차이 없는것 같기도.... 그래도 그나마 실수할 가능성이 덜한게 후자인것 같아서 한 번 써보려고 한다.
+
+## 주의사항
+
+`Map.Entry` 타입을 다룰 때 꼭 제네릭까지 명시를 해주는게 좋다. `Map.Entry<String, Integer>` 
+
+안써주면 이게 Map.Entry<Object, Object> 로 판정되는데, 이러면 형변환이 필요해져서 컴파일에러가 무지 많이 뜬다. 
+
+안그래도 프로그래머스 환경이 디버깅하기 빡세기 때문에 이런것도 꼭 염두해주자.

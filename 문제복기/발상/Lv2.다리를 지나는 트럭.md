@@ -44,6 +44,7 @@
 
 ## 코드
 
+```java
 import java.util.*;
 
 class Solution {
@@ -74,3 +75,4 @@ class Solution {
         return time += length;
     }
 }
+```

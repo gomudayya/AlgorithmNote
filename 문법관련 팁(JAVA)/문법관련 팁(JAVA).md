@@ -10,13 +10,13 @@
 
 타입별로 변환하는 방법이 다르다.
 
-1. List<String>
+1. `List<String>`
 
   - **`list.toArray(new String[0]);`**
 
   - 사이즈를 0으로 하는 이유는, 사이즈가 부족하면 알아서 리스트 사이즈에 맞춰서 만듬.
 
-2. List<Integer>
+2. `List<Integer>`
 
   - `toArray()`를 사용하면 안됨. 랩핑타입(Integer)와 원시타입(int) 간의 괴리 때문에 컨버팅이 안됨
 

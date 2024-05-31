@@ -56,7 +56,7 @@
 
 그리고 문제에서 언급되있듯이, 일치하는지 확인할 때 빈공간이나, 퍼즐조각 둘중 하나를 회전시켜가면서 일치하는지 비교 해야한다.
 
-### 퍼즐조각, 빈공간 추출방식
+### 퍼즐모양 추출방식
 
 문제조건에서 `퍼즐 조각은 1 x 1 크기 정사각형이 최소 1개에서 최대 6개까지 연결된 형태로만 주어집니다.`
 
@@ -66,9 +66,78 @@
 
 그리고 이 복사된 shape배열에 있는 도형을 왼쪽 위로 밀어버면서 6x6배열로 축소시켰다.
 
+### 퍼즐모양 이동방식
+
+뽑아낸 퍼즐모양을 왼쪽 위로 밀어버리려면, 위쪽과의 거리와 왼쪽과의 거리를 알아야한다.
+
+이 때 위쪽과의 거리를 계산하기 위해서는 일반적인 2차원배열 for문 작성하듯이 
+
+for문을 row, col순으로 작성하고 가장 처음만나는 블럭의 row값이 위쪽과의 거리이다.
+
+반대로 왼쪽과의 거리를 알아내기 위해선 
+
+for문을 col, row순으로 작성하고 가장 처음만나는 블럭의 col값이 왼쪽과의 거리이다.
+
+그리고 이렇게 계산한 거리만큼 밀어버리면된다.
+
+```java
+int[][] moveLeftUp(int[][] shape) {
+        int leftDistance = findLeftDistance(shape);
+        int upDistance = findUpDistance(shape);
+        
+        return moveLeftUp(shape, leftDistance, upDistance);
+    }
+    
+    int[][] moveLeftUp(int[][] shape, int leftDistance, int upDistance) {
+        int[][] ret = new int[6][6];
+        
+        for (int r = 0; r < shape.length; r++) {
+            for (int c = 0; c < shape[0].length; c++) {
+                if (shape[r][c] != 0) {
+                    ret[r-upDistance][c-leftDistance] = 1;
+                }
+            }
+        }
+        
+        return ret;
+    }
+    
+    int findLeftDistance(int[][] shape) {
+        for (int c = 0; c < shape[0].length; c++) {
+            for (int r = 0; r < shape.length; r++) {
+                if(shape[r][c] == 1) {
+                    return c;
+                }
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+    
+    int findUpDistance(int[][] shape) {
+        for (int r = 0; r < shape.length; r++) {
+            for (int c = 0; c < shape[0].length; c++) {
+                if (shape[r][c] == 1) {
+                    return r;
+                }
+            }
+        }    
+        throw new IllegalArgumentException();
+    }
+```
+
 ### 퍼즐조각 회전방식
 
 회전방식은 처음에 고민을 많이했는데, 이 부분은 사실 하나의 축을기준으로 사고해보면 간단하게 해결할 수 있다.
+
+점 자체를 한번에 회전시키려고 생각하지 말고, Row축과 Col축을 각각 나눠서 생각해보자.
+
+![image](https://github.com/gomudayya/AlgorithmNote/assets/129571789/c0a55c40-803c-4988-b7c7-5a14fccab0b0)
+
+그러면 row축을 왼쪽으로 90도 회전시키면, row축이 col축으로 바뀌는 것을 알 수 있다.
+
+그리고 col축을 왼쪽으로 90도 회전시키면, col축이 row축으로 바뀌는데 이 때, row위치가 N-1-col로 변환된다.
+
+코드로 작성하면 아래와 같다.
 
 ```java
     int[][] rotate (int[][] arr) { // 왼쪽으로 90도 회전
@@ -79,17 +148,15 @@
                 res[N-1-j][i] = arr[i][j];
             }
         }
-        return moveLeftUp(res);
+        return res;
     }
 ```
-
-
 
 ## 교훈
 
 **문제를 풀다가 이게 아닌것 같다 싶으면 문제를 다시 읽어보자.. 넘겨짚지 말고, 한 글자도 남김없이**
 
-## 코드
+## 전체 코드
 
 ```java
 import java.util.*;

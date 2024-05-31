@@ -81,7 +81,8 @@ for문을 col, row순으로 작성하고 가장 처음만나는 블럭의 col값
 그리고 이렇게 계산한 거리만큼 밀어버리면된다.
 
 ```java
-int[][] moveLeftUp(int[][] shape) {
+
+    int[][] moveLeftUp(int[][] shape) {
         int leftDistance = findLeftDistance(shape);
         int upDistance = findUpDistance(shape);
         

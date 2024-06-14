@@ -59,11 +59,11 @@ import java.util.*;
 
 class Solution {
 
-    Map<String, Queue<String>> graph = new HashMap<>();
+    Map<String, PriorityQueue<String>> graph = new HashMap<>();
     public List<String> findItinerary(List<List<String>> tickets) {
         for (var ticket : tickets) {
-            graph.putIfAbsent(ticket.get(0), new LinkedList<>());
-            graph.putIfAbsent(ticket.get(1), new LinkedList<>());
+            graph.putIfAbsent(ticket.get(0), new PriorityQueue<>());
+            graph.putIfAbsent(ticket.get(1), new PriorityQueue<>());
             graph.get(ticket.get(0)).add(ticket.get(1));
         }
         List<String> route = new ArrayList<>();

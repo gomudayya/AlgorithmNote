@@ -149,3 +149,15 @@ lt, rt 셋팅은 lowerBound와 일치한다.
     - 이 문제는 주사위로 얻을 수 있는 Score를 다 구한 이후 승리횟수를 Count할 때 이중 for문을 이용하면 시간초과가 발생한다. O(n^2)
     - 반면 lowerBound를 이용하면 O(n log n)으로 구할 수 있다.
     - 만약에 승리횟수와 무승부도 계산할일이 있다면? upperBound값으로 계산하면 된다.
+
+### 참고 (이상, 미만, 초과, 이하)
+
+- 이상인 것들의 갯수 : lowerBound
+
+- 미만인 것들의 갯수 : 전체 - lowerBound
+
+- 초과하는 것들의 갯수 : upperBound
+
+- 이하인것들의 갯수 : 전체 - upperBound
+
+
